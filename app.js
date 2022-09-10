@@ -2,17 +2,18 @@
 const express = require('express') // 套用express
 const app = express()
 const port = 3000
+
 const exphbs = require('express-handlebars') // 套用handlebars
-const restaurantList = require('./restaurant.json') //套用餐廳名單
-const mongoose = require('mongoose')
+const mongoose = require('mongoose') //套用mongoose
 const methodOverride = require('method-override')
-const Restaurant = require('./models/Restaurant') //載入 Restaurant model
-// 引用 body-parser
-const bodyParser = require('body-parser')
-// 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
+const bodyParser = require('body-parser')// body-parser 進行前置處理以利用HTTP動詞
+const routes = require('./routes')// 將 request 導入路由器
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
+app.use(express.static('public')) //載入CSS js等
+app.use(routes)//所有路由從routes走
+
 
 require('dotenv').config()
 console.log(process.env.MY_ENV)  // 設定連線到 mongoDB
@@ -33,76 +34,6 @@ db.once('open', () => {
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
-
-// setting static files
-app.use(express.static('public'))//所有路由的請求都先走這
-
-// routes setting
-app.get('/', (req, res) => {
-  Restaurant.find()
-    .lean()
-    .then(restaurantsData => res.render("index", { restaurantsData }))
-    .catch(error => console.error(error))
-})
-
-
-//setting search function
-app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.toLowerCase()
-  Restaurant.find({})
-    .lean()
-    .then(restaurantsData => {
-      const filterRestaurantsData = restaurantsData.filter(
-        data =>
-          data.name.toLowerCase().includes(keyword) ||
-          data.category.includes(keyword)
-      )
-      res.render("index", { restaurantsData: filterRestaurantsData, keyword })
-    })
-})
-
-app.get('/restaurant/new', (req, res) => {
-  return res.render("new")
-})
-
-app.post('/restaurant', (req, res) => {
-  Restaurant.create(req.body)
-    .then(() => res.redirect("/"))
-    .catch(err => console.log(err))
-})
-
-app.get('/restaurant/:restaurant_id/edit', (req, res) => {
-  const id = req.params.restaurant_id
-  Restaurant.findById(id)
-    .lean()
-    .then((restaurantsData) => res.render('edit', { restaurantsData }))
-    .catch(error => console.log(error))
-})
-
-app.put("/restaurant/:restaurant_id", (req, res) => {
-  const id = req.params.restaurant_id
-  Restaurant.findByIdAndUpdate(id, req.body)
-    .then(() => res.redirect(`/restaurant/${id}`))
-    .catch(err => console.log(err))
-})
-
-//render information page(show.handlebars)
-app.get('/restaurant/:restaurant_id', (req, res) => {
-  const id = req.params.restaurant_id
-  Restaurant.findById(id)
-    .lean()
-    .then(restaurantsData =>
-      res.render("show", { restaurantsData }))
-    .catch(error => console.log(error))
-
-})
-
-app.delete('/restaurant/:restaurant_id', (req, res) => {
-  const id = req.params.restaurant_id
-  Restaurant.findByIdAndDelete(id)
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
 
 
 // start and listen on the Express server
