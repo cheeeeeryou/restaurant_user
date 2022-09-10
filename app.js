@@ -9,6 +9,8 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')// body-parser 進行前置處理以利用HTTP動詞
 const routes = require('./routes')// 將 request 導入路由器
 
+require('./config/mongoose')
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
 app.use(express.static('public')) //載入CSS js等
