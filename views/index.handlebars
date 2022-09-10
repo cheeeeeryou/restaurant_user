@@ -39,6 +39,13 @@
                   {{this.rating}} <i class="fas fa-star fa-xs"></i>
                 </span>
               </div>
+              <div class="card-footer d-flex justify-content-end flex-wrap">
+                <a href="/restaurant/{{this.id}}/edit"><button class="btn btn-info">Edit</button></a>
+                <a href="/restaurant/{{this._id}}"><button class="btn btn-info">Details</button></a>
+                <form action="/restaurant/{{this._id}}?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-danger">delete</button>
+                </form>
+              </div>
             </div>
           </a>
         </div>
