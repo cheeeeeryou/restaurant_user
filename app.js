@@ -5,6 +5,10 @@ const port = 3000
 const exphbs = require('express-handlebars') // 套用handlebars
 const restaurantList = require('./restaurant.json') //套用餐廳名單
 const mongoose = require('mongoose')
+const methodOverride = require('method-override')
+const Restaurant = require("./models/Restaurant") //載入 Restaurant model
+
+app.use(methodOverride("_method"))
 
 require('dotenv').config()
 console.log(process.env.MY_ENV)  // 設定連線到 mongoDB
@@ -31,7 +35,10 @@ app.use(express.static('public'))//所有路由的請求都先走這
 
 // routes setting
 app.get('/', (req, res) => {
-  res.render('index', { restaurants: restaurantList.results })
+  Restaurant.find()
+    .lean()          // 把 Mongoose 的 Model 物件，轉換成乾淨單純的 JS 資料陣列
+    .then(restaurantsData => res.render("index", { restaurantsData }))
+    .catch(error => console.error(error)) //如果發生意外，執行錯誤處理
 })
 
 //setting search function
