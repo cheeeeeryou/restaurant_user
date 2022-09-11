@@ -2,9 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Restaurant = require('../../models/Restaurant')
 
-
-
-
 router.get('/new', (req, res) => {
   return res.render("new")
 })

@@ -5,7 +5,16 @@ const Restaurant = require('../../models/Restaurant') //載入 Restaurant model
 router.get('/', (req, res) => {
   Restaurant.find()
     .lean()
-    .sort({ _id: 'asc' }) // desc
+    .sort({ _id: 'asc' })
+    .then(restaurant => res.render('index', { restaurant }))
+    .catch(error => console.log(error))
+})
+
+router.get('/sort/:id', (req, res) => {
+  const id = req.params.id
+  Restaurant.find()
+    .lean()
+    .sort(id) // 
     .then(restaurant => res.render('index', { restaurant }))
     .catch(error => console.log(error))
 })

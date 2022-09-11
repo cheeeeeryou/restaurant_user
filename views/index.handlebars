@@ -10,6 +10,18 @@
           <div class="input-group-append">
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
           </div>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Sort by
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item link-secondary" href="/sort/name_en" id="name_en">A>Z</a></li>
+              <li><a class="dropdown-item link-secondary" href="/sort/rating" id="rating">評分</a></li>
+              <li><a class="dropdown-item link-secondary" href="/sort/category" id="category">類別</a></li>
+              <li><a class="dropdown-item link-secondary" href="/sort/location" id="location">地區</a></li>
+            </ul>
+          </div>
         </div>
       </form>
     </div>
@@ -17,19 +29,6 @@
 </div>
 </div>
 
-<!--add restaurant-->
-<div class="container mt-3">
-  <div class="col-md-1 mx-auto">
-    <a href="./restaurant/new">
-      {{#each Restaurant}}
-      <li>
-        {{this.name}}
-      </li>
-      {{/each}}
-      <button class="btn btn-outline-secondary">新增餐廳</button>
-    </a>
-  </div>
-</div>
 
 <!-- restaurant list -->
 <div class="container mt-5">
@@ -38,7 +37,7 @@
       <div class="card-group">
         {{#each restaurant}}
         <div class="col-md-4 p-2">
-          <a href="/restaurant/{{this.id}}" class="text-secondary">
+          <a href="/restaurant/{{this._id}}" class="text-secondary">
             <div class="card mb-3">
               <div>
                 <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">

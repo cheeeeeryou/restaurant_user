@@ -24,6 +24,18 @@
         My Restaurant List
       </a>
     </div>
+    <!--add restaurant-->
+    <div class="mx-auto">
+      <a href="./restaurant/new">
+        {{#each Restaurant}}
+        <li>
+          {{this.name}}
+        </li>
+        {{/each}}
+        <button class="btn btn-outline-secondary">新增餐廳</button>
+      </a>
+    </div>
+
   </nav>
 
   <div class="banner"></div>
