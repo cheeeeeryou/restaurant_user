@@ -1,5 +1,6 @@
 
 const express = require('express') // 套用express
+const session = require('express-session')
 const app = express()
 const port = 3000
 
@@ -11,6 +12,12 @@ const routes = require('./routes')// 將 request 導入路由器
 
 require('./config/mongoose')
 
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
 app.use(express.static('public')) //載入CSS js等
@@ -20,6 +27,8 @@ app.use(routes)//所有路由從routes走
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+
+
 
 
 // start and listen on the Express server
