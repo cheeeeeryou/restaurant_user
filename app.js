@@ -11,6 +11,10 @@ const bodyParser = require('body-parser')// body-parser 進行前置處理以利
 const routes = require('./routes')// 將 request 導入路由器
 const usePassport = require('./config/passport') // 載入設定檔，要寫在 express-session 以後
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 require('./config/mongoose')
 
 app.use(session({
