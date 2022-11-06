@@ -19,13 +19,13 @@
   <nav class="navbar navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="/">
+        {{#if isAuthenticated}}{{ user.name}}'s {{/if}}
         <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
           width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
-        My Restaurant List
+        Restaurant List
       </a>
-    </div>
     <!--add restaurant-->
-    <div class="mx-auto">
+      {{#if isAuthenticated}}
       <a href="/restaurant/new">
         {{#each Restaurant}}
         <li>
@@ -34,6 +34,12 @@
         {{/each}}
         <button class="btn btn-outline-secondary">新增餐廳</button>
       </a>
+      {{/if}}
+      {{#if isAuthenticated}}
+      <a href="/users/logout" class="btn btn-outline-secondary">Logout</a>
+      {{else}}
+      <a href="/users/login" class="btn btn-outline-secondary">Login</a>
+      {{/if}}
     </div>
 
   </nav>
