@@ -3,7 +3,8 @@ const router = express.Router()
 const Restaurant = require('../../models/Restaurant') //載入 Restaurant model
 
 router.get('/', (req, res) => {
-  Restaurant.find()
+  const userId = req.user._id
+  Restaurant.find({ userId })
     .lean()
     .sort({ _id: 'asc' })
     .then(restaurant => res.render('index', { restaurant }))
@@ -11,17 +12,19 @@ router.get('/', (req, res) => {
 })
 
 router.get('/sort/:id', (req, res) => {
-  const id = req.params.id
-  Restaurant.find()
+  const userId = req.user._id
+  const _id = req.params.id
+  Restaurant.findOne({ _id, userId })
     .lean()
-    .sort(id) // 
+    .sort(_id) // 
     .then(restaurant => res.render('index', { restaurant }))
     .catch(error => console.log(error))
 })
 
 router.get('/search', (req, res) => {
+  const userId = req.user._id
   const keyword = req.query.keyword.toLowerCase()
-  Restaurant.find()
+  Restaurant.findOneAndDelete({ userId })
     .lean()
     .then(restaurantsData => {
       const filterRestaurantsData = restaurantsData.filter(

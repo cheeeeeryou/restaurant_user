@@ -2,7 +2,7 @@ const mongoose = require('mongoose') //套用mongoose
 
 require('dotenv').config()
 console.log(process.env.MY_ENV)  // 設定連線到 mongoDB
-mongoose.connect(process.env.MY_ENV, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MY_ENV, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
