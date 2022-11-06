@@ -7,6 +7,7 @@ const port = 3000
 const exphbs = require('express-handlebars') // 套用handlebars
 const mongoose = require('mongoose') //套用mongoose
 const methodOverride = require('method-override')
+const flash = require('connect-flash')
 const bodyParser = require('body-parser')// body-parser 進行前置處理以利用HTTP動詞
 const routes = require('./routes')// 將 request 導入路由器
 const usePassport = require('./config/passport') // 載入設定檔，要寫在 express-session 以後
@@ -27,6 +28,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
 
 usePassport(app)// 呼叫 Passport 函式並傳入 app，這條要寫在路由之前
+app.use(flash())  // 掛載套件
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  res.locals.success_msg = req.flash('success_msg')  // 設定 success_msg 訊息
+  res.locals.warning_msg = req.flash('warning_msg')  // 設定 warning_msg 訊息
+  next()
+})
 
 app.use((req, res, next) => {
   // 你可以在這裡 console.log(req.user) 等資訊來觀察
