@@ -46,9 +46,12 @@ router.get('/:restaurant_id', (req, res) => {
 router.delete('/:restaurant_id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.restaurant_id
-  Restaurant.findByIdAndDelete({ _id, userId })
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+  
+    Restaurant.findByIdAndDelete({ _id, userId })
+      .then(() => res.redirect('/'))
+      .catch(error => console.log(error))
 })
+
+
 
 module.exports = router // 匯出路由模組，要記得寫！不然會出錯

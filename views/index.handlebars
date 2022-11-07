@@ -55,9 +55,19 @@
                 <a href="/restaurant/{{this._id}}/edit"><button class="btn btn-secondary">Edit</button></a>
                 <a href="/restaurant/{{this._id}}"><button class="btn btn-outline-secondary">Details</button></a>
                 <form action="/restaurant/{{this._id}}?_method=DELETE" method="POST">
-                  <button type="submit" class="btn btn-danger">delete</button>
+                  <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">delete</button>
                 </form>
               </div>
+              <script>
+                function confirmDelete() {
+                  const result = confirm('確定刪除這個餐廳?')
+                  if (result) {
+                    alert('已刪除')
+                    return true
+                  } else {
+                    return false
+                  }
+                }</script>
             </div>
           </a>
         </div>

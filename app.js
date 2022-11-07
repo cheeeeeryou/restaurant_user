@@ -24,7 +24,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded( { limit: "50mb", extended: true, parameterLimit: 50000 }) )
 app.use(methodOverride("_method"))
 
 usePassport(app)// 呼叫 Passport 函式並傳入 app，這條要寫在路由之前
