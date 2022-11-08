@@ -1,15 +1,13 @@
 const bcrypt = require('bcryptjs')
-
-const db = require('../../config/mongoose')
-const User = require('../user')
-const Restaurant = require('../restaurant') //載入 Restaurant model
-const restaurantList = require("../../restaurant.json").results
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+const db = require('../../config/mongoose')
+const User = require('../user')
+const Restaurant = require('../restaurant') 
+const restaurantList = require("../../restaurant.json").results
 
-const userSeeder = [{
+const SEED_USER = [{
   name: 'user1',
   email: 'user1@example.com',
   password: '12345678',
@@ -24,17 +22,17 @@ const userSeeder = [{
 
 // 連線至資料庫
 db.once('open', () => {
-  Promise.all(userSeeder.map((serSeeder) =>
+  Promise.all(SEED_USER.map((SEED_USER) =>
     bcrypt
       .genSalt(10)
-      .then(salt => bcrypt.hash(userSeeder.password, salt))
+      .then(salt => bcrypt.hash(SEED_USER.password, salt))
       .then(hash => User.create({
-        name: userSeeder.name,
-        email: userSeeder.email,
+        name: SEED_USER.name,
+        email: SEED_USER.email,
         password: hash
       }))
       .then(user => {
-        const restaurantSeeds = userSeeder.collection.map(index => {
+        const restaurantSeeds = SEED_USER.collection.map(index => {
           restaurantList[index].userId = user._id
           return restaurantList[index]
         })
