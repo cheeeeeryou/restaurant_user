@@ -17,7 +17,7 @@ const SEED_USER = [{
   name: 'user2',
   email: 'user2@example.com',
   password: '12345678',
-  collection: [0, 1, 2]
+  collection: [3, 4, 5]
 }]
 
 // 連線至資料庫
